@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="psu.pqt5055.gridtest.MainActivity">
+    tools:context="psu.pqt5055.snake.MainActivity">
 
     <GridLayout
         android:id="@+id/game_grid"
@@ -35,23 +35,27 @@
         <View
             style="@style/GameButton"/>
         <Button
+            android:onClick="onControlButtonClick"
             style="@style/GameButton"
             android:text="U"/>
         <View
             style="@style/GameButton"/>
 
         <Button
+            android:onClick="onControlButtonClick"
             style="@style/GameButton"
             android:text="L"/>
         <View
             style="@style/GameButton"/>
         <Button
+            android:onClick="onControlButtonClick"
             style="@style/GameButton"
             android:text="R"/>
 
         <View
             style="@style/GameButton"/>
         <Button
+            android:onClick="onControlButtonClick"
             style="@style/GameButton"
             android:text="D"/>
         <View

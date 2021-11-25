@@ -10,5 +10,6 @@
     <color name='green_l'>#86DC3D</color>
     <color name='green_m'>#378805</color>
     <color name='green_d'>#26580F</color>
+    <color name="red_2">#FFAE0009</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
