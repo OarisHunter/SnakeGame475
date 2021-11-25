@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int mBoardColor;
     private int mBorderColor;
-    private int mSnakeHeadColor;
     private int mSnakeColor;
     private int mAppleColor;
 
@@ -28,9 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mBoardColor = ContextCompat.getColor(this, R.color.gray);
-        mBorderColor = ContextCompat.getColor(this, R.color.black);
-        mSnakeHeadColor = ContextCompat.getColor(this, R.color.green_d);
+        mBoardColor = ContextCompat.getColor(this, R.color.black);
+        mBorderColor = ContextCompat.getColor(this, R.color.white);
         mSnakeColor = ContextCompat.getColor(this, R.color.green_m);
         mAppleColor = ContextCompat.getColor(this, R.color.red_2);
 
@@ -40,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         SnakeGame game = new SnakeGame(game_board_size);
 
         drawStartSnake();
+
+        game.newGame(startPosX, startPosY, startPosX+startLen-1, startPosY+startLen-1, startLen);
     }
 
     protected void createBoard() {
@@ -74,11 +74,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onControlButtonClick(View view) {
+
+    }
+
     protected void drawStartSnake() {
-        drawPixel(startPosX, startPosY, mSnakeHeadColor);
-        for (int i = 1; i < startLen; i++) {
+        for (int i = 0; i < startLen; i++) {
             drawPixel(startPosX, startPosY + i, mSnakeColor);
         }
+    }
+
+    public void updateSnakeHead(int x, int y) {
+        drawPixel(x, y, mSnakeColor);
+    }
+
+    public void updateSnakeTail(int x, int y) {
+        drawPixel(x, y, mBoardColor);
     }
 
     protected void drawPixel(int x, int y, int color) {

@@ -6,10 +6,15 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name='gray'>#DDDDDD</color>
+    <color name='gray_l'>#B0B3B8</color>
+    <color name="gray_m">#3A3B3C</color>
+    <color name="gray_d">#18191A</color>
     <color name='green_l'>#86DC3D</color>
+    <color name="snake_green">#056628</color>
     <color name='green_m'>#378805</color>
     <color name='green_d'>#26580F</color>
     <color name="red_2">#FFAE0009</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="pale_blue">#adc5cd</color>
+    <color name="blue_steel">#53736f</color>
 </resources>
