@@ -12,12 +12,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:useDefaultMargins="false"
-        android:columnCount="20"
-        android:rowCount="20"
         android:layout_margin="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
     </GridLayout>
 
+    <GridLayout
+        android:id="@+id/game_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:useDefaultMargins="false"
+        android:layout_margin="20dp"
+
+        android:rowCount="3"
+        android:columnCount="3"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_grid">
+
+        <View
+            style="@style/GameButton"/>
+        <Button
+            style="@style/GameButton"
+            android:text="U"/>
+        <View
+            style="@style/GameButton"/>
+
+        <Button
+            style="@style/GameButton"
+            android:text="L"/>
+        <View
+            style="@style/GameButton"/>
+        <Button
+            style="@style/GameButton"
+            android:text="R"/>
+
+        <View
+            style="@style/GameButton"/>
+        <Button
+            style="@style/GameButton"
+            android:text="D"/>
+        <View
+            style="@style/GameButton"/>
+
+    </GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
