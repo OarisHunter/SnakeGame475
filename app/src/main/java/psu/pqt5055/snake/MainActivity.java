@@ -3,24 +3,35 @@ package psu.pqt5055.snake;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.HandlerThread;
+import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.GridLayout;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = "MainActivity";
+    private HandlerThread mGameThread;
+
+    private SnakeGame mGame;
+    private GridLayout mGameBoard;
+    private GridLayout mGameButtons;
+
     private final int board_start_id = 1000;
     private final int game_board_size = 21;
-
-    private final int startPosX = game_board_size / 2 + 1;
-    private final int startPosY = game_board_size / 2 + 1;
-    private final int startLen = game_board_size / 4;
+    private final int startPosX = 11;
+    private final int startPosY = 14;
+    private final int startLen = 3;
 
     private int mBoardColor;
     private int mBorderColor;
     private int mSnakeColor;
     private int mAppleColor;
+
+    private boolean mGameRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,23 +43,32 @@ public class MainActivity extends AppCompatActivity {
         mSnakeColor = ContextCompat.getColor(this, R.color.green_m);
         mAppleColor = ContextCompat.getColor(this, R.color.red_2);
 
+        initializeGame();
+    }
+
+    protected void initializeGame() {
+        mGameBoard = findViewById(R.id.game_grid);
+        mGameButtons = findViewById(R.id.game_controls);
+        mGame = new SnakeGame(mGameBoard, game_board_size);
         createBoard();
         createBorder();
+        mGameRunning = false;
+    }
 
-        SnakeGame game = new SnakeGame(game_board_size);
+    protected void startGame() {
+        mGame.newGame(startPosX, startPosY, startLen);
+    }
 
-        drawStartSnake();
+    public void updateBoard() {
 
-        game.newGame(startPosX, startPosY, startPosX+startLen-1, startPosY+startLen-1, startLen);
     }
 
     protected void createBoard() {
         int height = (int) this.getResources().getDimension(R.dimen.board_pixel_height);
         int width = (int) this.getResources().getDimension(R.dimen.board_pixel_width);
 
-        GridLayout layout = findViewById(R.id.game_grid);
-        layout.setRowCount(game_board_size);
-        layout.setColumnCount(game_board_size);;
+        mGameBoard.setRowCount(game_board_size);
+        mGameBoard.setColumnCount(game_board_size);;
 
         for (int col = 1; col <= game_board_size; col++) {
             for (int row = 1; row <= game_board_size; row++) {
@@ -57,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 pixel.setLayoutParams(new LayoutParams(width, height));
                 pixel.setBackgroundColor(mBoardColor);
 
-                layout.addView(pixel);
+                mGameBoard.addView(pixel);
             }
         }
     }
@@ -75,7 +95,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onControlButtonClick(View view) {
+        int buttonIndex = mGameButtons.indexOfChild(view);
+        int direction = buttonIndex / 2;
 
+        if (direction == 0) {
+            mGame.setHeading(SnakeGame.Heading.UP);
+        }
+        else if (direction == 1) {
+            mGame.setHeading(SnakeGame.Heading.LEFT);
+        }
+        else if (direction == 2) {
+            mGame.setHeading(SnakeGame.Heading.RIGHT);
+        }
+        else if (direction == 3) {
+            mGame.setHeading(SnakeGame.Heading.DOWN);
+        }
+    }
+
+    public void onStartButtonClick(View view) {
+        view.setVisibility(View.INVISIBLE);
+        findViewById(R.id.game_controls).setVisibility(View.VISIBLE);
+        findViewById(R.id.resetgame_button).setVisibility(View.VISIBLE);
+
+        drawStartSnake();
+
+        startGame();
+    }
+
+    public void onResetButtonClick(View view) {
+        view.setVisibility(View.INVISIBLE);
+        findViewById(R.id.game_controls).setVisibility(View.INVISIBLE);
+        findViewById(R.id.startgame_button).setVisibility(View.VISIBLE);
+
+        mGameRunning = false;
+
+        mGameBoard.removeAllViews();
+        initializeGame();
     }
 
     protected void drawStartSnake() {
@@ -84,12 +139,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void updateSnakeHead(int x, int y) {
-        drawPixel(x, y, mSnakeColor);
-    }
+    public void updateSnake() {
+        int[] snakeX = mGame.getSnakeX();
+        int[] snakeY = mGame.getSnakeY();
 
-    public void updateSnakeTail(int x, int y) {
-        drawPixel(x, y, mBoardColor);
+        drawPixel(snakeX[0], snakeY[0], mSnakeColor);
     }
 
     protected void drawPixel(int x, int y, int color) {

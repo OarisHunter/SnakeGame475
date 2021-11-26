@@ -30,6 +30,6 @@
     <style name="GameButton">
         <item name="android:layout_height">90dp</item>
         <item name="android:layout_width">90dp</item>
-        <item name="android:textSize">50sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 </resources>

@@ -1,57 +1,185 @@
 package psu.pqt5055.snake;
 
-public class SnakeGame {
+import android.content.Context;
 
-    private final int GRID_SIZE;
+import android.util.Log;
+import android.widget.GridLayout;
 
-    private final int[][] mGameGrid;
+public class SnakeGame implements Runnable {
+    Context context;
+    GridLayout mGameBoard;
 
-    private int headX;
-    private int headY;
-    private int tailX;
-    private int tailY;
+    // reference vars
+    private final String TAG = "SnakeGame";
+    private Thread thread = null;
 
-    private int headDirection;
-    private int tailDirection;
+    // game vars
+    private int grid_size;
+    private long nextFrameTime;
+    private final long FPS = 10;
+    private final long MILLIS_PER_SECOND = 1000;
+
+    // snake vars
+    public enum Heading {UP, RIGHT, DOWN, LEFT}
+    private Heading heading = Heading.RIGHT;
+    private int[] snakeX;
+    private int[] snakeY;
     private int snakeLength;
 
-    private int score;
+    // fruit vars
+    private int fruitX;
+    private int fruitY;
 
-    public SnakeGame(int grid_size) {
-        GRID_SIZE = grid_size;
-        mGameGrid = new int[grid_size][grid_size];
+    // player vars
+    private int score;
+    private boolean isPlaying;
+
+    public SnakeGame(GridLayout layout, int grid_size) {
+        mGameBoard = layout;
+        snakeX = new int[grid_size * grid_size];
+        snakeY = new int[grid_size * grid_size];
+        this.grid_size = grid_size;
     }
 
-    public void newGame(int startPosX, int startPosY, int endPosX, int endPosY, int startLen) {
-        // Initialize Game Board
-        for (int row = 0; row < GRID_SIZE; row++) {
-            for (int col = 0; col < GRID_SIZE; col++) {
-                mGameGrid[row][col] = 0;
-            }
-        }
-        // Create boarder
-        for (int i = 0; i < GRID_SIZE; i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
-                mGameGrid[0][j] = 1;
-                mGameGrid[GRID_SIZE - 1][j] = 1;
-            }
-            mGameGrid[i][0] = 1;
-            mGameGrid[i][GRID_SIZE - 1] = 1;
+    public void newGame(int headX, int headY, int snakeLength) {
+        this.snakeLength = snakeLength;
 
+        for (int i = 0; i < snakeLength; i++) {
+            snakeX[i] = headX;
+            snakeY[i] = headY + i;
         }
-        // Initialize Values
-        headX = startPosX;
-        headY = startPosY;
-        tailX = endPosX;
-        tailY = endPosY;
-        headDirection = 0;
-        tailDirection = 0;
-        snakeLength = startLen;
+
         score = 0;
-        // Initialize snake position
-        mGameGrid[headX][headY] = 2;
-        for (int row = 1; row < startLen; row++) {
-            mGameGrid[row][headY] = 3;
+
+        // TODO: spawn fruit
+
+        nextFrameTime = System.currentTimeMillis();
+    }
+
+    private void updateSnake() {
+        // start at tail and work towards head
+        for (int i = snakeLength; i > 0; i--) {
+            snakeX[i] = snakeX[i - 1];
+            snakeY[i] = snakeY[i - 1];
         }
+
+        switch (heading) {
+            case UP:
+                snakeY[0]--;
+                break;
+            case DOWN:
+                snakeY[0]++;
+                break;
+            case LEFT:
+                snakeX[0]--;
+                break;
+            case RIGHT:
+                snakeX[0]++;
+                break;
+        }
+    }
+
+    public void update() {
+        // TODO: check for fruit collision
+
+        updateSnake();
+
+        // TODO: Check for death
+    }
+
+    public boolean updateRequired() {
+        if (nextFrameTime <= System.currentTimeMillis()) {
+            nextFrameTime = System.currentTimeMillis() + MILLIS_PER_SECOND / FPS;
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void run() {
+        if (updateRequired()) {
+            update();
+        }
+    }
+
+    public void pause() {
+        isPlaying = false;
+        try {
+            thread.join();
+        }
+        catch (InterruptedException e) {
+            Log.e(TAG, "Error in pause()");
+        }
+    }
+
+    public void resume() {
+        isPlaying = true;
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    public Heading getHeading() {
+        return heading;
+    }
+
+    public void setHeading(Heading heading) {
+        this.heading = heading;
+    }
+
+    public int[] getSnakeX() {
+        return snakeX;
+    }
+
+    public void setSnakeX(int[] snakeX) {
+        this.snakeX = snakeX;
+    }
+
+    public int[] getSnakeY() {
+        return snakeY;
+    }
+
+    public void setSnakeY(int[] snakeY) {
+        this.snakeY = snakeY;
+    }
+
+    public int getSnakeLength() {
+        return snakeLength;
+    }
+
+    public void setSnakeLength(int snakeLength) {
+        this.snakeLength = snakeLength;
+    }
+
+    public int getFruitX() {
+        return fruitX;
+    }
+
+    public void setFruitX(int fruitX) {
+        this.fruitX = fruitX;
+    }
+
+    public int getFruitY() {
+        return fruitY;
+    }
+
+    public void setFruitY(int fruitY) {
+        this.fruitY = fruitY;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
     }
 }
