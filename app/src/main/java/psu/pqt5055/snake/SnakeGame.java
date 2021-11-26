@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.GridLayout;
 
 public class SnakeGame implements Runnable {
-    Context context;
+    MainActivity mainActivity;
     GridLayout mGameBoard;
 
     // reference vars
@@ -21,7 +21,7 @@ public class SnakeGame implements Runnable {
 
     // snake vars
     public enum Heading {UP, RIGHT, DOWN, LEFT}
-    private Heading heading = Heading.RIGHT;
+    private Heading heading = Heading.UP;
     private int[] snakeX;
     private int[] snakeY;
     private int snakeLength;
@@ -34,8 +34,8 @@ public class SnakeGame implements Runnable {
     private int score;
     private boolean isPlaying;
 
-    public SnakeGame(GridLayout layout, int grid_size) {
-        mGameBoard = layout;
+    public SnakeGame(MainActivity mainActivity, int grid_size) {
+        this.mainActivity = mainActivity;
         snakeX = new int[grid_size * grid_size];
         snakeY = new int[grid_size * grid_size];
         this.grid_size = grid_size;
@@ -98,8 +98,11 @@ public class SnakeGame implements Runnable {
 
     @Override
     public void run() {
-        if (updateRequired()) {
-            update();
+        while (true) {
+            if (updateRequired()) {
+                update();
+                mainActivity.updateBoard();
+            }
         }
     }
 

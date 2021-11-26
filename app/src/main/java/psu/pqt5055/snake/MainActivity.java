@@ -14,7 +14,8 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
-    private HandlerThread mGameThread;
+    private Thread mGameThread;
+    private MainActivity instance;
 
     private SnakeGame mGame;
     private GridLayout mGameBoard;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
 
         mBoardColor = ContextCompat.getColor(this, R.color.black);
         mBorderColor = ContextCompat.getColor(this, R.color.white);
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void initializeGame() {
         mGameBoard = findViewById(R.id.game_grid);
         mGameButtons = findViewById(R.id.game_controls);
-        mGame = new SnakeGame(mGameBoard, game_board_size);
+        mGame = new SnakeGame(getInstance(), game_board_size);
         createBoard();
         createBorder();
         mGameRunning = false;
@@ -57,10 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
     protected void startGame() {
         mGame.newGame(startPosX, startPosY, startLen);
+        mGameThread = new Thread(mGame);
+
+        mGameThread.start();
     }
 
     public void updateBoard() {
-
+        updateSnake();
     }
 
     protected void createBoard() {
@@ -153,5 +158,9 @@ public class MainActivity extends AppCompatActivity {
 
     protected int convertCoords(int x, int y) {
         return (board_start_id + x) * y;
+    }
+
+    public MainActivity getInstance() {
+        return instance;
     }
 }
