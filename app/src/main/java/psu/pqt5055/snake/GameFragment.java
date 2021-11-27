@@ -130,6 +130,7 @@ public class GameFragment extends Fragment {
     }
 
     public void endGame() {
+
         // TODO: Handle creating new game
         // TODO: Handle storing score
         // TODO: Handle end game message
@@ -263,5 +264,11 @@ public class GameFragment extends Fragment {
         parentView.findViewById(R.id.startgame_button).setOnClickListener(this::onStartButtonClick);
         parentView.findViewById(R.id.resetgame_button).setOnClickListener(this::onResetButtonClick);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mGame.pause();
     }
 }

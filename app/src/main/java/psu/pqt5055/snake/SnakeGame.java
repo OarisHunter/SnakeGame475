@@ -9,7 +9,6 @@ import java.util.Random;
 public class SnakeGame implements Runnable {
     // reference vars
     private final String TAG = "SnakeGame";
-    private Thread thread = null;
     private final GameFragment parentActivity;
     private final Random rand = new Random();
 
@@ -149,6 +148,14 @@ public class SnakeGame implements Runnable {
         if (checkFatalCollision()) {
             isPlaying = false;
         }
+        else {
+            parentActivity.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    parentActivity.updateBoard();
+                }
+            });
+        }
     }
 
     public boolean updateRequired() {
@@ -165,31 +172,18 @@ public class SnakeGame implements Runnable {
         while (isPlaying) {
             if (updateRequired()) {
                 update();
-                parentActivity.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        parentActivity.updateBoard();
-                    }
-                });
             }
         }
-        parentActivity.endGame();
+        parentActivity.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                parentActivity.endGame();
+            }
+        });
     }
 
     public void pause() {
         isPlaying = false;
-        try {
-            thread.join();
-        }
-        catch (InterruptedException e) {
-            Log.e(TAG, "Error in pause()");
-        }
-    }
-
-    public void resume() {
-        isPlaying = true;
-        thread = new Thread(this);
-        thread.start();
     }
 
     public Heading getHeading() {
@@ -204,52 +198,24 @@ public class SnakeGame implements Runnable {
         return snakeX;
     }
 
-    public void setSnakeX(int[] snakeX) {
-        this.snakeX = snakeX;
-    }
-
     public int[] getSnakeY() {
         return snakeY;
-    }
-
-    public void setSnakeY(int[] snakeY) {
-        this.snakeY = snakeY;
     }
 
     public int getSnakeLength() {
         return snakeLength;
     }
 
-    public void setSnakeLength(int snakeLength) {
-        this.snakeLength = snakeLength;
-    }
-
     public int getFruitX() {
         return fruitX;
-    }
-
-    public void setFruitX(int fruitX) {
-        this.fruitX = fruitX;
     }
 
     public int getFruitY() {
         return fruitY;
     }
 
-    public void setFruitY(int fruitY) {
-        this.fruitY = fruitY;
-    }
-
     public int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public boolean isPlaying() {
-        return isPlaying;
     }
 
     public void setPlaying(boolean playing) {

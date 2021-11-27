@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_gameFragment"
+        android:title="@string/title_game"
+        android:icon="@drawable/nav_game_icon"
+        />
+
+    <item
+        android:id="@+id/nav_scoresFragment"
+        android:title="@string/title_scores"
+        android:icon="@drawable/nav_score_icon"/>
+
+    <item
+        android:id="@+id/nav_settingsFragment"
+        android:title="@string/title_settings"
+        android:icon="@drawable/nav_settings_icon"/>
+</menu>

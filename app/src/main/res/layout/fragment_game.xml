@@ -5,14 +5,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@color/black"
+android:background="?colorOnPrimary"
 tools:context="psu.pqt5055.snake.MainActivity">
 
     <TextView
         android:id="@+id/game_score"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginEnd="10dp"
         android:textSize="24sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@ tools:context="psu.pqt5055.snake.MainActivity">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:useDefaultMargins="false"
-        android:layout_margin="20dp"
+        android:layout_margin="0dp"
 
         android:rowCount="3"
         android:columnCount="3"
@@ -43,38 +43,34 @@ tools:context="psu.pqt5055.snake.MainActivity">
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/game_grid">
 
         <View
             style="@style/GameButton"/>
         <Button
             style="@style/GameButton"
             android:drawableLeft="@drawable/arrow_up"
-            android:paddingLeft="0dp"
-            android:drawableTint="?colorOnPrimary"/>
+            android:paddingLeft="0dp" />
         <View
             style="@style/GameButton"/>
 
         <Button
             style="@style/GameButton"
             android:drawableLeft="@drawable/arrow_left"
-            android:paddingLeft="0dp"
-            android:drawableTint="?colorOnPrimary"/>
+            android:paddingLeft="0dp" />
         <View
             style="@style/GameButton"/>
         <Button
             style="@style/GameButton"
             android:drawableLeft="@drawable/arrow_right"
-            android:paddingLeft="0dp"
-            android:drawableTint="?colorOnPrimary"/>
+            android:paddingLeft="0dp" />
 
         <View
             style="@style/GameButton"/>
         <Button
             style="@style/GameButton"
             android:drawableLeft="@drawable/arrow_down"
-            android:paddingLeft="0dp"
-            android:drawableTint="?colorOnPrimary"/>
+            android:paddingLeft="0dp" />
         <View
             style="@style/GameButton"/>
 
@@ -91,6 +87,7 @@ tools:context="psu.pqt5055.snake.MainActivity">
 
     <Button
         android:id="@+id/resetgame_button"
+        style="@style/GameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
