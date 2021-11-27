@@ -2,14 +2,19 @@ package psu.pqt5055.snake;
 
 import android.util.Log;
 
+import androidx.fragment.app.FragmentActivity;
+
+import java.util.Random;
+
 public class SnakeGame implements Runnable {
     // reference vars
     private final String TAG = "SnakeGame";
     private Thread thread = null;
-    private MainActivity mainActivity;
+    private final GameFragment parentActivity;
+    private final Random rand = new Random();
 
     // game vars
-    private int grid_size;
+    private final int grid_size;
     private long nextFrameTime;
     private final long game_speed = 5;
     private final long MILLIS_PER_SECOND = 1000;
@@ -29,8 +34,8 @@ public class SnakeGame implements Runnable {
     private int score;
     private boolean isPlaying;
 
-    public SnakeGame(MainActivity mainActivity, int grid_size) {
-        this.mainActivity = mainActivity;
+    public SnakeGame(GameFragment parentActivity, int grid_size) {
+        this.parentActivity = parentActivity;
         snakeX = new int[grid_size * grid_size];
         snakeY = new int[grid_size * grid_size];
         this.grid_size = grid_size;
@@ -47,6 +52,7 @@ public class SnakeGame implements Runnable {
         score = 0;
 
         // TODO: spawn fruit
+        spawnFruit();
 
         nextFrameTime = System.currentTimeMillis();
     }
@@ -94,13 +100,48 @@ public class SnakeGame implements Runnable {
         }
 
         // Check snake collision
+        for (int i = snakeLength; i > 0; i--) {
+            if ((i > 4) && (snakeX[i] == headX && snakeY[i] == headY)) {
+                isDead = true;
+                break;
+            }
+        }
 
         if (isDead) Log.i(TAG, "Snake Died");
         return isDead;
     }
+    
+    public void spawnFruit() {
+        // Generate new fruit coordinates
+        fruitX = rand.nextInt((grid_size - 3) + 1) + 2;
+        fruitY = rand.nextInt((grid_size - 3) + 1) + 2;
+
+        boolean inSnake = false;
+        for (int i = snakeLength; i >= 0; i--) {
+            if (snakeX[i] == fruitX && snakeY[i] == fruitY) {
+                inSnake = true;
+                break;
+            }
+        }
+        if (inSnake) {
+            spawnFruit();
+        }
+    }
+
+    public void checkFruitCollision() {
+        int headX = snakeX[0];
+        int headY = snakeY[0];
+
+        if (headX == fruitX && headY == fruitY) {
+            snakeLength++;
+            score++;
+            spawnFruit();
+        }
+    }
 
     public void update() {
         // TODO: check for fruit collision
+        checkFruitCollision();
 
         updateSnake();
 
@@ -124,10 +165,15 @@ public class SnakeGame implements Runnable {
         while (isPlaying) {
             if (updateRequired()) {
                 update();
-                mainActivity.updateBoard();
+                parentActivity.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        parentActivity.updateBoard();
+                    }
+                });
             }
         }
-//        mainActivity.endGame();
+        parentActivity.endGame();
     }
 
     public void pause() {

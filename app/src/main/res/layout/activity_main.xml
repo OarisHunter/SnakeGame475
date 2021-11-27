@@ -8,82 +8,14 @@
     android:background="@color/black"
     tools:context="psu.pqt5055.snake.MainActivity">
 
-    <GridLayout
-        android:id="@+id/game_grid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:useDefaultMargins="false"
-        android:layout_margin="20dp"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="psu.pqt5055.snake.GameFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </GridLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <GridLayout
-        android:id="@+id/game_controls"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:useDefaultMargins="false"
-        android:layout_margin="20dp"
-
-        android:rowCount="3"
-        android:columnCount="3"
-
-        android:visibility="invisible"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <View
-            style="@style/GameButton"/>
-        <Button
-            android:onClick="onControlButtonClick"
-            style="@style/GameButton"
-            android:text="U"/>
-        <View
-            style="@style/GameButton"/>
-
-        <Button
-            android:onClick="onControlButtonClick"
-            style="@style/GameButton"
-            android:text="L"/>
-        <View
-            style="@style/GameButton"/>
-        <Button
-            android:onClick="onControlButtonClick"
-            style="@style/GameButton"
-            android:text="R"/>
-
-        <View
-            style="@style/GameButton"/>
-        <Button
-            android:onClick="onControlButtonClick"
-            style="@style/GameButton"
-            android:text="D"/>
-        <View
-            style="@style/GameButton"/>
-
-    </GridLayout>
-
-    <Button
-        android:id="@+id/startgame_button"
-        android:onClick="onStartButtonClick"
-        style="@style/GameButton"
-        app:layout_constraintRight_toRightOf="@+id/game_controls"
-        app:layout_constraintLeft_toLeftOf="@+id/game_controls"
-        app:layout_constraintTop_toTopOf="@+id/game_controls"
-        app:layout_constraintBottom_toBottomOf="@+id/game_controls"
-        android:text="Start"/>
-
-    <Button
-        android:id="@+id/resetgame_button"
-        android:onClick="onResetButtonClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintRight_toRightOf="@+id/game_controls"
-        app:layout_constraintLeft_toRightOf="@+id/game_controls"
-        app:layout_constraintBottom_toBottomOf="@+id/game_controls"
-        android:text="Reset"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

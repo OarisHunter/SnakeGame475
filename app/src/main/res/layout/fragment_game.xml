@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/black"
+tools:context="psu.pqt5055.snake.MainActivity">
+
+    <TextView
+        android:id="@+id/game_score"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="24sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="?colorPrimary"/>
+
+    <GridLayout
+        android:id="@+id/game_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:useDefaultMargins="false"
+        android:layout_margin="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/game_score">
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/game_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:useDefaultMargins="false"
+        android:layout_margin="20dp"
+
+        android:rowCount="3"
+        android:columnCount="3"
+
+        android:visibility="invisible"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            style="@style/GameButton"/>
+        <Button
+            style="@style/GameButton"
+            android:drawableLeft="@drawable/arrow_up"
+            android:paddingLeft="0dp"
+            android:drawableTint="?colorOnPrimary"/>
+        <View
+            style="@style/GameButton"/>
+
+        <Button
+            style="@style/GameButton"
+            android:drawableLeft="@drawable/arrow_left"
+            android:paddingLeft="0dp"
+            android:drawableTint="?colorOnPrimary"/>
+        <View
+            style="@style/GameButton"/>
+        <Button
+            style="@style/GameButton"
+            android:drawableLeft="@drawable/arrow_right"
+            android:paddingLeft="0dp"
+            android:drawableTint="?colorOnPrimary"/>
+
+        <View
+            style="@style/GameButton"/>
+        <Button
+            style="@style/GameButton"
+            android:drawableLeft="@drawable/arrow_down"
+            android:paddingLeft="0dp"
+            android:drawableTint="?colorOnPrimary"/>
+        <View
+            style="@style/GameButton"/>
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/startgame_button"
+        style="@style/GameButton"
+        app:layout_constraintRight_toRightOf="@+id/game_controls"
+        app:layout_constraintLeft_toLeftOf="@+id/game_controls"
+        app:layout_constraintTop_toTopOf="@+id/game_controls"
+        app:layout_constraintBottom_toBottomOf="@+id/game_controls"
+        android:text="@string/start_button"/>
+
+    <Button
+        android:id="@+id/resetgame_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="@+id/game_controls"
+        app:layout_constraintLeft_toRightOf="@+id/game_controls"
+        app:layout_constraintTop_toTopOf="@+id/game_controls"
+        android:text="@string/reset_button"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
