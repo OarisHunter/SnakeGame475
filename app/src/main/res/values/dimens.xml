@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="board_pixel_width">18dp</dimen>
-    <dimen name="board_pixel_height">18dp</dimen>
+    <dimen name="board_pixel_width">12dp</dimen>
+    <dimen name="board_pixel_height">12dp</dimen>
 </resources>

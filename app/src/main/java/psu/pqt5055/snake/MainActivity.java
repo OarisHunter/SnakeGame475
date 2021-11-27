@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private GridLayout mGameButtons;
 
     private final int board_start_id = 1000;
-    private final int game_board_size = 21;
+    private final int game_board_size = 31;
     private final int startPosX = 11;
     private final int startPosY = 14;
     private final int startLen = 3;
@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private int mBorderColor;
     private int mSnakeColor;
     private int mAppleColor;
-
-    private boolean mGameRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +52,25 @@ public class MainActivity extends AppCompatActivity {
         mGame = new SnakeGame(getInstance(), game_board_size);
         createBoard();
         createBorder();
-        mGameRunning = false;
+        mGame.setPlaying(false);
     }
 
     protected void startGame() {
         mGame.newGame(startPosX, startPosY, startLen);
         mGameThread = new Thread(mGame);
+        mGame.setPlaying(true);
 
         mGameThread.start();
     }
 
+    public void endGame() {
+
+    }
+
     public void updateBoard() {
         updateSnake();
+        updateFruit();
+        updateScore();
     }
 
     protected void createBoard() {
@@ -132,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.game_controls).setVisibility(View.INVISIBLE);
         findViewById(R.id.startgame_button).setVisibility(View.VISIBLE);
 
-        mGameRunning = false;
+        mGame.setPlaying(false);
 
         mGameBoard.removeAllViews();
         initializeGame();
@@ -147,8 +152,21 @@ public class MainActivity extends AppCompatActivity {
     public void updateSnake() {
         int[] snakeX = mGame.getSnakeX();
         int[] snakeY = mGame.getSnakeY();
+        int snakeLength = mGame.getSnakeLength();
 
+        // Draw Head
         drawPixel(snakeX[0], snakeY[0], mSnakeColor);
+
+        // Erase Behind Tail
+        drawPixel(snakeX[snakeLength], snakeY[snakeLength], mBoardColor);
+    }
+
+    public void updateFruit() {
+
+    }
+
+    public void updateScore() {
+
     }
 
     protected void drawPixel(int x, int y, int color) {

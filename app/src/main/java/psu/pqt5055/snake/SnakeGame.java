@@ -1,22 +1,17 @@
 package psu.pqt5055.snake;
 
-import android.content.Context;
-
 import android.util.Log;
-import android.widget.GridLayout;
 
 public class SnakeGame implements Runnable {
-    MainActivity mainActivity;
-    GridLayout mGameBoard;
-
     // reference vars
     private final String TAG = "SnakeGame";
     private Thread thread = null;
+    private MainActivity mainActivity;
 
     // game vars
     private int grid_size;
     private long nextFrameTime;
-    private final long FPS = 10;
+    private final long game_speed = 5;
     private final long MILLIS_PER_SECOND = 1000;
 
     // snake vars
@@ -79,17 +74,45 @@ public class SnakeGame implements Runnable {
         }
     }
 
+    public boolean checkFatalCollision() {
+        boolean isDead = false;
+
+        int headX = snakeX[0];
+        int headY = snakeY[0];
+        // Check bounds collision
+        if (headX <= 1) {
+            isDead = true;
+        }
+        if (headX >= grid_size) {
+            isDead = true;
+        }
+        if (headY <= 1) {
+            isDead = true;
+        }
+        if (headY >= grid_size) {
+            isDead = true;
+        }
+
+        // Check snake collision
+
+        if (isDead) Log.i(TAG, "Snake Died");
+        return isDead;
+    }
+
     public void update() {
         // TODO: check for fruit collision
 
         updateSnake();
 
         // TODO: Check for death
+        if (checkFatalCollision()) {
+            isPlaying = false;
+        }
     }
 
     public boolean updateRequired() {
         if (nextFrameTime <= System.currentTimeMillis()) {
-            nextFrameTime = System.currentTimeMillis() + MILLIS_PER_SECOND / FPS;
+            nextFrameTime = System.currentTimeMillis() + MILLIS_PER_SECOND / game_speed;
 
             return true;
         }
@@ -98,12 +121,13 @@ public class SnakeGame implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (isPlaying) {
             if (updateRequired()) {
                 update();
                 mainActivity.updateBoard();
             }
         }
+//        mainActivity.endGame();
     }
 
     public void pause() {
