@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,9 +105,12 @@ public class GameFragment extends Fragment {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
         mBorderColor = typedValue.data;
-        mBoardColor = ContextCompat.getColor(context, R.color.black);
-        mSnakeColor = ContextCompat.getColor(context, R.color.green_m);
-        mFruitColor = ContextCompat.getColor(context, R.color.apple_red);
+        context.getTheme().resolveAttribute(R.attr.colorOnPrimary, typedValue, true);
+        mBoardColor = typedValue.data;
+        context.getTheme().resolveAttribute(R.attr.colorSecondary, typedValue, true);
+        mSnakeColor = typedValue.data;
+        context.getTheme().resolveAttribute(R.attr.colorSecondaryVariant, typedValue, true);
+        mFruitColor = typedValue.data;
 
         initializeGame();
 
@@ -117,6 +122,7 @@ public class GameFragment extends Fragment {
         mGameButtons = parentView.findViewById(R.id.game_controls);
         mScoreDisplay = parentView.findViewById(R.id.game_score);
         mGame = new SnakeGame(getInstance(), game_board_size);
+        mGameBoard.removeAllViews();
         createBoard();
         createBorder();
         mScoreDisplay.setText(getString(R.string.appbar_newgame));
@@ -124,9 +130,12 @@ public class GameFragment extends Fragment {
     }
 
     protected void startGame() {
+        initializeGame();
         mGame.newGame(startPosX, startPosY, startLen);
         mGameThread = new Thread(mGame);
         mGame.setPlaying(true);
+
+        drawStartSnake();
 
         mGameThread.start();
     }
@@ -134,11 +143,17 @@ public class GameFragment extends Fragment {
     public void endGame() {
 
         // TODO: Handle creating new game
+        parentView.findViewById(R.id.resetgame_button).setVisibility(View.INVISIBLE);
+        parentView.findViewById(R.id.game_controls).setVisibility(View.INVISIBLE);
+        parentView.findViewById(R.id.startgame_button).setVisibility(View.VISIBLE);
         // TODO: Handle storing score
         Score score = new Score(mGame.getScore());
-        score.setMUserId(mSnakeDb.userDAO().getUserIdByName("Pierce"));
-        mSnakeDb.scoreDAO().insertScore(score);
+        if (score.getMScore() > 0) {
+            score.setMUserId(mSnakeDb.userDAO().getUserIdByName("Pierce"));
+            mSnakeDb.scoreDAO().insertScore(score);
+        }
         // TODO: Handle end game message
+        Toast.makeText(getActivity(), R.string.game_over_message, Toast.LENGTH_SHORT).show();
     }
 
     public void updateBoard() {
@@ -162,6 +177,14 @@ public class GameFragment extends Fragment {
                 pixel.setBackgroundColor(mBoardColor);
 
                 mGameBoard.addView(pixel);
+            }
+        }
+    }
+
+    protected void clearBoard() {
+        for (int col = 1; col <= game_board_size; col++) {
+            for (int row = 1; row <= game_board_size; row++) {
+                drawPixel(row, col, mBoardColor);
             }
         }
     }
@@ -201,8 +224,6 @@ public class GameFragment extends Fragment {
         view.setVisibility(View.INVISIBLE);
         parentView.findViewById(R.id.game_controls).setVisibility(View.VISIBLE);
         parentView.findViewById(R.id.resetgame_button).setVisibility(View.VISIBLE);
-
-        drawStartSnake();
 
         startGame();
     }
@@ -268,7 +289,6 @@ public class GameFragment extends Fragment {
         }
         parentView.findViewById(R.id.startgame_button).setOnClickListener(this::onStartButtonClick);
         parentView.findViewById(R.id.resetgame_button).setOnClickListener(this::onResetButtonClick);
-
     }
 
     @Override

@@ -13,8 +13,12 @@
     <color name="snake_green">#056628</color>
     <color name='green_m'>#378805</color>
     <color name='green_d'>#26580F</color>
+    <color name="olive">#99a682</color>
     <color name="red_2">#FFAE0009</color>
     <color name="apple_red">#FF0800</color>
+    <color name="rgbRed">#FF0000</color>
+    <color name="rgbBlue">#0000FF</color>
+    <color name="rgbGreen">#00FF00</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pale_blue">#adc5cd</color>
     <color name="blue_steel">#53736f</color>

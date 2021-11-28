@@ -9,6 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/score_item"
+        android:lines="2"
+        android:gravity="center"
+        style="@style/ScoreListItem"
         tools:text="score">
     </TextView>
 

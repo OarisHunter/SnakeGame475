@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -77,12 +78,15 @@ public class ScoresFragment extends Fragment {
         mSnakeDb = SnakeDatabase.getInstance(context);
 
         View.OnClickListener onClickListener = itemView -> {
-//            int selectedScoreId = (int) itemView.getTag();
+//            long selectedScoreId = (long) itemView.getTag();
         };
 
         RecyclerView recyclerView = parentView.findViewById(R.id.score_list);
         List<Score> scores = mSnakeDb.scoreDAO().getScores();
-        recyclerView.setAdapter(new ScoreAdapter(scores, onClickListener));
+        recyclerView.setAdapter(new ScoreAdapter(scores, onClickListener, mSnakeDb));
+        DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(divider);
 
         return parentView;
     }
@@ -91,9 +95,12 @@ public class ScoresFragment extends Fragment {
 
         private final List<Score> mScores;
         private final View.OnClickListener mOnClickListener;
+        private SnakeDatabase mSnakeDb;
 
-        public ScoreAdapter(List<Score> scores, View.OnClickListener onClickListener) {
+        public ScoreAdapter(List<Score> scores, View.OnClickListener onClickListener,
+                            SnakeDatabase mSnakeDb) {
             mScores = scores;
+            this.mSnakeDb = mSnakeDb;
             mOnClickListener = onClickListener;
         }
 
@@ -101,7 +108,7 @@ public class ScoresFragment extends Fragment {
         @Override
         public ScoreHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new ScoreHolder(layoutInflater, parent);
+            return new ScoreHolder(layoutInflater, parent, mSnakeDb);
         }
 
         @Override
@@ -121,14 +128,18 @@ public class ScoresFragment extends Fragment {
     private static class ScoreHolder extends RecyclerView.ViewHolder {
 
         private final TextView mNameTextView;
+        private SnakeDatabase mSnakeDb;
 
-        public ScoreHolder(LayoutInflater inflater, ViewGroup parent) {
+        public ScoreHolder(LayoutInflater inflater, ViewGroup parent, SnakeDatabase mSnakeDb) {
             super(inflater.inflate(R.layout.score_list_item, parent, false));
             mNameTextView = itemView.findViewById(R.id.score_item);
+            this.mSnakeDb = mSnakeDb;
         }
 
         public void bind(Score score) {
-            mNameTextView.setText(Long.toString(score.getMScore()));
+            User user = mSnakeDb.userDAO().getUser(score.getMUserId());
+            String text = String.format("%s:\n%d", user.getMName(), score.getMScore());
+            mNameTextView.setText(text);
         }
     }
 }
