@@ -30,6 +30,7 @@ public class GameFragment extends Fragment {
     private GameFragment gameFragment;
     private Context context;
     private View parentView;
+    private SnakeDatabase mSnakeDb;
 
     private SnakeGame mGame;
     private GridLayout mGameBoard;
@@ -95,6 +96,7 @@ public class GameFragment extends Fragment {
 
         gameFragment = this;
         context = getActivity();
+        mSnakeDb = SnakeDatabase.getInstance(context);
 
         setButtonHandlers();
 
@@ -133,6 +135,9 @@ public class GameFragment extends Fragment {
 
         // TODO: Handle creating new game
         // TODO: Handle storing score
+        Score score = new Score(mGame.getScore());
+        score.setMUserId(mSnakeDb.userDAO().getUserIdByName("Pierce"));
+        mSnakeDb.scoreDAO().insertScore(score);
         // TODO: Handle end game message
     }
 
