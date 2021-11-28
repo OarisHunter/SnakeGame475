@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.SnakeGame.standard" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.SnakeGame.Default" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/gray_m</item>
@@ -14,7 +14,17 @@
         <item name="android:actionMenuTextColor">?colorPrimary</item>
     </style>
 
-    <style name="Theme.SnakeGame.classic" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="OverlayThemeStandard" parent="Theme.SnakeGame.Default">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/gray_m</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/green_m</item>
+        <item name="colorSecondaryVariant">@color/apple_red</item>
+    </style>
+
+    <style name="OverlayThemeClassic" parent="Theme.SnakeGame.Default">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green_m</item>
         <item name="colorPrimaryVariant">@color/gray_m</item>
@@ -22,14 +32,9 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/snake_green</item>
         <item name="colorSecondaryVariant">@color/apple_red</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="android:textColorPrimary">?colorPrimary</item>
-        <item name="android:textColorSecondary">?colorPrimary</item>
-        <item name="android:actionMenuTextColor">?colorPrimary</item>
     </style>
 
-    <style name="Theme.SnakeGame.rgb" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="OverlayThemeRGB" parent="Theme.SnakeGame.Default">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/rgbGreen</item>
         <item name="colorPrimaryVariant">@color/gray_d</item>
@@ -37,14 +42,9 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/rgbBlue</item>
         <item name="colorSecondaryVariant">@color/rgbRed</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="android:textColorPrimary">?colorPrimary</item>
-        <item name="android:textColorSecondary">?colorPrimary</item>
-        <item name="android:actionMenuTextColor">?colorPrimary</item>
     </style>
 
-    <style name="Theme.SnakeGame.noir" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="OverlayThemeNoir" parent="Theme.SnakeGame.Default">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/gray_m</item>
         <item name="colorPrimaryVariant">@color/gray_d</item>
@@ -52,11 +52,6 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/gray_l</item>
         <item name="colorSecondaryVariant">@color/white</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="android:textColorPrimary">?colorPrimary</item>
-        <item name="android:textColorSecondary">?colorPrimary</item>
-        <item name="android:actionMenuTextColor">?colorPrimary</item>
     </style>
 
     <style name="GameButton">

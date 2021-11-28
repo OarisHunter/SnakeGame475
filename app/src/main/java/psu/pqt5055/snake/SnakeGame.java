@@ -1,5 +1,7 @@
 package psu.pqt5055.snake;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
@@ -10,12 +12,13 @@ public class SnakeGame implements Runnable {
     // reference vars
     private final String TAG = "SnakeGame";
     private final GameFragment parentActivity;
+    private SharedPreferences preferences;
     private final Random rand = new Random();
 
     // game vars
     private final int grid_size;
     private long nextFrameTime;
-    private final long game_speed = 5;
+    private long game_speed = 5;
     private final long MILLIS_PER_SECOND = 1000;
 
     // snake vars
@@ -35,9 +38,11 @@ public class SnakeGame implements Runnable {
 
     public SnakeGame(GameFragment parentActivity, int grid_size) {
         this.parentActivity = parentActivity;
+        preferences = parentActivity.requireActivity().getPreferences(Context.MODE_PRIVATE);
         snakeX = new int[grid_size * grid_size];
         snakeY = new int[grid_size * grid_size];
         this.grid_size = grid_size;
+        retreiveDifficulty();
     }
 
     public void newGame(int headX, int headY, int snakeLength) {
@@ -180,6 +185,19 @@ public class SnakeGame implements Runnable {
                 parentActivity.endGame();
             }
         });
+    }
+
+    public void retreiveDifficulty() {
+        int difficultyId = preferences.getInt("difficulty", R.id.difficulty_easy);
+        if (difficultyId == R.id.difficulty_medium) {
+            game_speed = 8;
+        }
+        else if (difficultyId == R.id.difficulty_hard) {
+            game_speed = 12;
+        }
+        else {
+            game_speed = 5;
+        }
     }
 
     public void pause() {

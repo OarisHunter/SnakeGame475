@@ -1,12 +1,21 @@
 package psu.pqt5055.snake;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavGraph;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +23,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
+
+    private View parentView;
+    private SharedPreferences preferences;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +71,106 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        parentView = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
+        initDifficulty();
+        initTheme();
+
+        return parentView;
+    }
+
+    private void initDifficulty() {
+        int difficultyId = preferences.getInt("difficulty", R.id.difficulty_easy);
+
+        int radioId = R.id.difficulty_easy;
+        if (difficultyId == R.id.difficulty_medium) {
+            radioId = R.id.difficulty_medium;
+        }
+        else if (difficultyId == R.id.difficulty_hard) {
+            radioId = R.id.difficulty_hard;
+        }
+
+        RadioButton radio = parentView.findViewById(radioId);
+        radio.setChecked(true);
+
+        // Add callbacks
+        RadioGroup radioGroup = parentView.findViewById(R.id.difficulty_buttons);
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            radio = (RadioButton) radioGroup.getChildAt(i);
+            radio.setOnClickListener(this::onDifficultySelected);
+        }
+    }
+    
+    private void initTheme() {
+        int themeId = preferences.getInt("theme", R.id.theme_standard);
+
+        int radioId = R.id.theme_standard;
+        if (themeId == R.id.theme_classic) {
+            radioId = R.id.theme_classic;
+        }
+        else if (themeId == R.id.theme_rgb) {
+            radioId = R.id.theme_rgb;
+        }
+        else if (themeId == R.id.theme_noir) {
+            radioId = R.id.theme_noir;
+        }
+
+        RadioButton radio = parentView.findViewById(radioId);
+        radio.setChecked(true);
+
+        // Add callbacks
+        GridLayout radioGroup = parentView.findViewById(R.id.theme_buttons);
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            radio = (RadioButton) radioGroup.getChildAt(i);
+            radio.setOnClickListener(this::onThemeSelected);
+        }
+    }
+
+    private void onDifficultySelected(View view) {
+        int diffId = R.id.difficulty_easy;
+        if (view.getId() == R.id.difficulty_medium) {
+            diffId = R.id.difficulty_medium;
+        }
+        else if (view.getId() == R.id.difficulty_hard) {
+            diffId = R.id.difficulty_hard;
+        }
+
+        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("difficulty", diffId);
+        editor.apply();
+    }
+
+    private void onThemeSelected(View view) {
+        int themeId = R.id.theme_standard;
+        if (view.getId() == R.id.theme_classic) {
+            themeId = R.id.theme_classic;
+        }
+        else if (view.getId() == R.id.theme_rgb) {
+            themeId = R.id.theme_rgb;
+        }
+        else if (view.getId() == R.id.theme_noir) {
+            themeId = R.id.theme_noir;
+        }
+
+        // Clear Checks
+        GridLayout radioGroup = parentView.findViewById(R.id.theme_buttons);
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            RadioButton radio = (RadioButton) radioGroup.getChildAt(i);
+            if (radio.getId() != view.getId()) {
+                radio.setChecked(false);
+            }
+        }
+
+        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("theme", themeId);
+        editor.apply();
+
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
     }
 }

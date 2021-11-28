@@ -54,11 +54,31 @@
                     style="@style/SettingsCategoryText"
                     android:text="Difficulty" />
 
-                <GridLayout
+                <RadioGroup
+                    android:id="@+id/difficulty_buttons"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
 
-                </GridLayout>
+                    <RadioButton
+                        android:id="@+id/difficulty_easy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Easy" />
+
+                    <RadioButton
+                        android:id="@+id/difficulty_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Medium" />
+
+                    <RadioButton
+                        android:id="@+id/difficulty_hard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hard" />
+
+                </RadioGroup>
 
             </LinearLayout>
 
@@ -80,12 +100,43 @@
                     style="@style/SettingsCategoryText"
                     android:text="Themes" />
 
-                <GridLayout
-                    android:layout_width="match_parent"
+                <RadioGroup
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                </GridLayout>
+                    <GridLayout
+                        android:id="@+id/theme_buttons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rowCount="2"
+                        android:columnCount="2">
 
+                        <RadioButton
+                            android:id="@+id/theme_standard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Standard" />
+
+                        <RadioButton
+                            android:id="@+id/theme_classic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Classic" />
+
+                        <RadioButton
+                            android:id="@+id/theme_rgb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="RGB" />
+
+                        <RadioButton
+                            android:id="@+id/theme_noir"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Noir" />
+
+                    </GridLayout>
+                </RadioGroup>
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>

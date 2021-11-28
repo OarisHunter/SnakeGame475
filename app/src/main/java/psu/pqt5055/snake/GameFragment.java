@@ -135,7 +135,7 @@ public class GameFragment extends Fragment {
         mGameThread = new Thread(mGame);
         mGame.setPlaying(true);
 
-        drawStartSnake();
+//        drawStartSnake();
 
         mGameThread.start();
     }
