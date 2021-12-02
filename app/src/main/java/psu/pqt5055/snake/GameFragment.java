@@ -2,6 +2,7 @@ package psu.pqt5055.snake;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 
@@ -33,6 +34,7 @@ public class GameFragment extends Fragment {
     private Context context;
     private View parentView;
     private SnakeDatabase mSnakeDb;
+    private SharedPreferences preferences;
 
     private SnakeGame mGame;
     private GridLayout mGameBoard;
@@ -40,7 +42,9 @@ public class GameFragment extends Fragment {
     private TextView mScoreDisplay;
 
     private final int board_start_id = 1000;
-    private final int game_board_size = 31;
+    private int game_board_size;
+    private int width;
+    private int height;
     private final int startPosX = 16;
     private final int startPosY = 21;
     private final int startLen = 3;
@@ -101,6 +105,10 @@ public class GameFragment extends Fragment {
         mSnakeDb = SnakeDatabase.getInstance(context);
 
         setButtonHandlers();
+
+        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
+        getGridSize();
 
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
@@ -163,9 +171,6 @@ public class GameFragment extends Fragment {
     }
 
     protected void createBoard() {
-        int height = (int) this.getResources().getDimension(R.dimen.board_pixel_height);
-        int width = (int) this.getResources().getDimension(R.dimen.board_pixel_width);
-
         mGameBoard.setRowCount(game_board_size);
         mGameBoard.setColumnCount(game_board_size);;
 
@@ -289,6 +294,25 @@ public class GameFragment extends Fragment {
         }
         parentView.findViewById(R.id.startgame_button).setOnClickListener(this::onStartButtonClick);
         parentView.findViewById(R.id.resetgame_button).setOnClickListener(this::onResetButtonClick);
+    }
+
+    public void getGridSize() {
+        int sizeId = preferences.getInt("grid_size", R.id.grid_size_small);
+        if (sizeId == R.id.grid_size_medium) {
+            game_board_size = 41;
+            height = (int) this.getResources().getDimension(R.dimen.board_pixel_height_medium);
+            width = (int) this.getResources().getDimension(R.dimen.board_pixel_width_medium);
+        }
+        else if (sizeId == R.id.grid_size_large) {
+            game_board_size = 51;
+            height = (int) this.getResources().getDimension(R.dimen.board_pixel_height_large);
+            width = (int) this.getResources().getDimension(R.dimen.board_pixel_width_large);
+        }
+        else {
+            game_board_size = 31;
+            height = (int) this.getResources().getDimension(R.dimen.board_pixel_height_small);
+            width = (int) this.getResources().getDimension(R.dimen.board_pixel_width_small);
+        }
     }
 
     @Override

@@ -77,6 +77,7 @@ public class SettingsFragment extends Fragment {
 
         initDifficulty();
         initTheme();
+        initSize();
 
         return parentView;
     }
@@ -128,6 +129,28 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    private void initSize() {
+        int sizeId = preferences.getInt("grid_size", R.id.grid_size_small);
+
+        int radioId = R.id.grid_size_small;
+        if (sizeId == R.id.grid_size_medium) {
+            radioId = R.id.grid_size_medium;
+        }
+        else if (sizeId == R.id.grid_size_large) {
+            radioId = R.id.grid_size_large;
+        }
+
+        RadioButton radio = parentView.findViewById(radioId);
+        radio.setChecked(true);
+
+        // Add callbacks
+        RadioGroup radioGroup = parentView.findViewById(R.id.grid_size_buttons);
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            radio = (RadioButton) radioGroup.getChildAt(i);
+            radio.setOnClickListener(this::onSizeSelected);
+        }
+    }
+
     private void onDifficultySelected(View view) {
         int diffId = R.id.difficulty_easy;
         if (view.getId() == R.id.difficulty_medium) {
@@ -140,6 +163,21 @@ public class SettingsFragment extends Fragment {
         SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("difficulty", diffId);
+        editor.apply();
+    }
+
+    private void onSizeSelected(View view) {
+        int sizeId = R.id.grid_size_small;
+        if (view.getId() == R.id.grid_size_medium) {
+            sizeId = R.id.grid_size_medium;
+        }
+        else if (view.getId() == R.id.grid_size_large) {
+            sizeId = R.id.grid_size_large;
+        }
+
+        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("grid_size", sizeId);
         editor.apply();
     }
 
