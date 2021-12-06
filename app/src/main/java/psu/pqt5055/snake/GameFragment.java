@@ -45,8 +45,8 @@ public class GameFragment extends Fragment {
     private int game_board_size;
     private int width;
     private int height;
-    private final int startPosX = 16;
-    private final int startPosY = 21;
+    private int startPosX;
+    private int startPosY;
     private final int startLen = 3;
 
     private int mBoardColor;
@@ -299,19 +299,25 @@ public class GameFragment extends Fragment {
     public void getGridSize() {
         int sizeId = preferences.getInt("grid_size", R.id.grid_size_small);
         if (sizeId == R.id.grid_size_medium) {
-            game_board_size = 41;
+            game_board_size = 31;
             height = (int) this.getResources().getDimension(R.dimen.board_pixel_height_medium);
             width = (int) this.getResources().getDimension(R.dimen.board_pixel_width_medium);
+            startPosX = 16;
+            startPosY = 21;
         }
         else if (sizeId == R.id.grid_size_large) {
-            game_board_size = 51;
+            game_board_size = 41;
             height = (int) this.getResources().getDimension(R.dimen.board_pixel_height_large);
             width = (int) this.getResources().getDimension(R.dimen.board_pixel_width_large);
+            startPosX = 21;
+            startPosY = 31;
         }
         else {
-            game_board_size = 31;
+            game_board_size = 21;
             height = (int) this.getResources().getDimension(R.dimen.board_pixel_height_small);
             width = (int) this.getResources().getDimension(R.dimen.board_pixel_width_small);
+            startPosX = 10;
+            startPosY = 12;
         }
     }
 

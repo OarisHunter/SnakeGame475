@@ -149,39 +149,79 @@
                     android:text="Themes" />
 
                 <RadioGroup
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <GridLayout
                         android:id="@+id/theme_buttons"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:rowCount="2"
-                        android:columnCount="2">
+                        android:columnCount="4">
 
                         <RadioButton
                             android:id="@+id/theme_standard"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Standard" />
+                            android:src="@drawable/standard"
+                            android:paddingTop="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="30dp"
+                            android:scaleX="2"
+                            android:scaleY="2" />
 
                         <RadioButton
                             android:id="@+id/theme_classic"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Classic" />
+                            android:src="@drawable/classic"
+                            android:paddingTop="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="30dp"
+                            android:scaleX="2"
+                            android:scaleY="2" />
 
                         <RadioButton
                             android:id="@+id/theme_rgb"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="RGB" />
+                            android:src="@drawable/rgb"
+                            android:paddingTop="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="30dp"
+                            android:scaleX="2"
+                            android:scaleY="2"/>
 
                         <RadioButton
                             android:id="@+id/theme_noir"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Noir" />
+                            android:src="@drawable/noir"
+                            android:paddingTop="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="30dp"
+                            android:scaleX="2"
+                            android:scaleY="2"/>
 
                     </GridLayout>
                 </RadioGroup>

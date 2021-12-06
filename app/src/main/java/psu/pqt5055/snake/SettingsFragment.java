@@ -123,14 +123,14 @@ public class SettingsFragment extends Fragment {
 
         // Add callbacks
         GridLayout radioGroup = parentView.findViewById(R.id.theme_buttons);
-        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+        for (int i = 0; i < radioGroup.getChildCount(); i+=2) {
             radio = (RadioButton) radioGroup.getChildAt(i);
             radio.setOnClickListener(this::onThemeSelected);
         }
     }
 
     private void initSize() {
-        int sizeId = preferences.getInt("grid_size", R.id.grid_size_small);
+        int sizeId = preferences.getInt("grid_size", R.id.grid_size_medium);
 
         int radioId = R.id.grid_size_small;
         if (sizeId == R.id.grid_size_medium) {
@@ -195,7 +195,7 @@ public class SettingsFragment extends Fragment {
 
         // Clear Checks
         GridLayout radioGroup = parentView.findViewById(R.id.theme_buttons);
-        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+        for (int i = 0; i < radioGroup.getChildCount(); i+=2) {
             RadioButton radio = (RadioButton) radioGroup.getChildAt(i);
             if (radio.getId() != view.getId()) {
                 radio.setChecked(false);
