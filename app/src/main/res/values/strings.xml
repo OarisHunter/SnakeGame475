@@ -11,4 +11,10 @@
     <string name="title_game">SNAKE GAME</string>
     <string name="title_settings">SETTINGS</string>
     <string name="game_over_message">GAME OVER</string>
+    <string name="channel_name">Notification Channel</string>
+    <string name="channel_description">Notification Channel</string>
+
+    <string-array name="notifications">
+        <item>DON\'T LEAVE ME!, I HUNGY! >:(</item>
+    </string-array>
 </resources>

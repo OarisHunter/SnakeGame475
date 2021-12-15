@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -325,5 +330,12 @@ public class GameFragment extends Fragment {
     public void onPause() {
         super.onPause();
         mGame.pause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        SnakeJobIntentService.startJob(context);
     }
 }
