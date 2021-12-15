@@ -1,23 +1,14 @@
 package psu.pqt5055.snake;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
-import androidx.annotation.ColorInt;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +22,7 @@ import android.widget.Toast;
  * Use the {@link GameFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GameFragment extends Fragment {
+public class GameFragment extends Fragment{
 
     private final String TAG = "GameFragment";
     private Thread mGameThread;
@@ -58,6 +49,10 @@ public class GameFragment extends Fragment {
     private int mBorderColor;
     private int mSnakeColor;
     private int mFruitColor;
+
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -114,6 +109,19 @@ public class GameFragment extends Fragment {
         preferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
 
         getGridSize();
+
+        // ShakeDetector initialization
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake() {
+                onResetButtonClick(parentView.findViewById(R.id.resetgame_button));
+            }
+        });
 
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
@@ -330,6 +338,8 @@ public class GameFragment extends Fragment {
     public void onPause() {
         super.onPause();
         mGame.pause();
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
     }
 
     @Override
@@ -337,5 +347,12 @@ public class GameFragment extends Fragment {
         super.onStop();
 
         SnakeJobIntentService.startJob(context);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
     }
 }
